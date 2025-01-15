@@ -4,10 +4,12 @@ using Unity.Netcode;
 public class PlayerNetworkBridge : NetworkBehaviour
 {
     [SerializeField] PlayerController _controller;
+    [SerializeField] BallControl _ballControl;
 
     private void Awake()
     {
         _controller.enabled = false;
+        _ballControl.enabled = false;
     }
 
 
@@ -19,10 +21,12 @@ public class PlayerNetworkBridge : NetworkBehaviour
         {
             enabled = false;
             _controller.enabled = false;
+            _ballControl.enabled = false;
             return;
         }
 
         _controller.enabled = true;
+        _ballControl.enabled = true;
 
     }
 

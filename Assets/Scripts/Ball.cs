@@ -1,13 +1,16 @@
+using System.Runtime.CompilerServices;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class Ball : NetworkBehaviour
 {
+
     private enum Direction
-    {
+    {   
         UP, DOWN, LEFT, RIGHT, FORWARD, BACKWARD
-    }
+    }   
 
     private Direction _direction;
 
@@ -17,16 +20,15 @@ public class Ball : MonoBehaviour
     private float _radius;
 
     private bool _pickedUp;
+    private GameObject _carrier = null;
 
-    private Rigidbody rb;
-
+    [SerializeField]
     private Vector3 _velocity;
 
     private void Awake()
     {
         _radius = transform.localScale.y / 2;
         _pickedUp = false;
-        //rb = GetComponent<Rigidbody>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,17 +37,40 @@ public class Ball : MonoBehaviour
         CheckSurrounds();
     }
 
-    // Update is called once per frame
-    void Update()
+    
+    void FixedUpdate()
     {
-        _velocity += new Vector3(0, _gravity * Time.deltaTime, 0);
-        if (IsGrounded())
+        if (!IsServer)
+        {
+            return;
+        }
+
+        if (_pickedUp)
+        {
+            Debug.Log("Carried by" + _carrier);
+            Vector3 newPos = _carrier.transform.position;
+            newPos.y += 2;
+            transform.position = newPos;
+        }
+
+
+        _velocity += new Vector3(0, _gravity * Time.fixedDeltaTime, 0);
+        if (IsGrounded() || _pickedUp)
         {
             _velocity.y = 0;
         }
         
-        transform.position += _velocity * Time.deltaTime;
+        transform.position += _velocity * Time.fixedDeltaTime;
+
+
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            _velocity *= 0;
+            transform.position = new Vector3(0, 4, 0);
+        }
     }
+
 
     public void AddVelocity(Vector3 velocity)
     {
@@ -59,6 +84,12 @@ public class Ball : MonoBehaviour
         {
             _pickedUp = value;
         }
+    }
+
+    public GameObject Carrier
+    {
+        get { return _carrier; }
+        set { _carrier = value; }
     }
 
     private void CheckSurrounds()
