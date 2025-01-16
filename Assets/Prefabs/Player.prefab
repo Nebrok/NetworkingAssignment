@@ -194,6 +194,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _controller: {fileID: 7061648162516281537}
   _ballControl: {fileID: -2216400826752415369}
+  Network_playerNumber:
+    m_InternalValue: 0
 --- !u!114 &3425812841916134009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +230,7 @@ MonoBehaviour:
   UseHalfFloatPrecision: 0
   InLocalSpace: 0
   SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
+  Interpolate: 0
   SlerpPosition: 0
 --- !u!114 &-2216400826752415369
 MonoBehaviour:

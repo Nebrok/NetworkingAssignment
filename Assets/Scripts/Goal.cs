@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
+    [SerializeField] string _team;
+    [SerializeField] PointSystemNetworked _points;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,7 +22,11 @@ public class Goal : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ball"))
         {
-            Debug.Log("Yippe You Scored!");
+            BallNetworked ball = other.gameObject.GetComponent<BallNetworked>();
+            if (ball.LastThrown == _team && _team == "Blue")
+            {
+                _points.IncrementBlueScoreRpc();
+            }
         }
     }
 

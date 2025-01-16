@@ -27,7 +27,7 @@ public class BallControl : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            NetworkPickUpBallRpc();
+            NetworkPickUpBall();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -42,7 +42,6 @@ public class BallControl : MonoBehaviour
         {
             if (colliders[i].CompareTag("Ball"))
             {
-                Debug.Log("Ball Nearby");
                 return colliders[i].gameObject;
             }
         }
@@ -51,7 +50,7 @@ public class BallControl : MonoBehaviour
 
     private bool CheckBallFree(GameObject ball)
     {
-        Ball ballClass = ball.GetComponent<Ball>();
+        BallNetworked ballClass = ball.GetComponent<BallNetworked>();
         if (ballClass.PickedUp)
         {
             return false;
@@ -62,10 +61,8 @@ public class BallControl : MonoBehaviour
         }
     }
 
-    [Rpc(SendTo.Server)]
-    private bool NetworkPickUpBallRpc()
+    private bool NetworkPickUpBall()
     {
-        Debug.Log("Hello");
         GameObject ball = CheckBallNearby();
         if (ball == null)
         {
@@ -80,32 +77,10 @@ public class BallControl : MonoBehaviour
         NetworkObject player = GetComponent<NetworkObject>();
         _ball = ball;
         _holdingBall = true;
-        ballClass.Network_pickedUp.Value = true;
-        ballClass.Network_carrier = player;
-        //ballClass.PickedUp = true;
-        //ballClass.Carrier = gameObject;
-
-        return false;
-    }
-
-
-
-    private bool PickUpBall()
-    {
-        GameObject ball = CheckBallNearby();
-        if (ball == null)
-        {
-            return false;
-        }
-        Ball ballClass = ball.GetComponent<Ball>();
-        if (!CheckBallFree(ball))
-        {
-            return false;
-        }
-        _ball = ball;
-        _holdingBall = true;
-        
-        ballClass.PickedUp = _holdingBall;
+        ballClass.SetPickUpStateRpc(true);
+        ulong foo = GetComponent<NetworkObject>().OwnerClientId;
+        Debug.Log(foo);
+        ballClass.SetCarrierRpc(GetComponent<NetworkObject>().OwnerClientId);
 
         return false;
     }
@@ -116,16 +91,15 @@ public class BallControl : MonoBehaviour
         {
             return;
         }
-        Ball ballClass = _ball.GetComponent<Ball>();
+        BallNetworked ballClass = _ball.GetComponent<BallNetworked>();
         Vector3 throwDir = new Vector3(0, 0.5f, 0);
         throwDir += transform.forward;
         throwDir.Normalize();
 
-        ballClass.AddVelocity(throwDir * _throwForce);
-        ballClass.PickedUp = false;
+        ballClass.AddVelocityRpc(throwDir * _throwForce);
+        ballClass.SetPickUpStateRpc(false);
         _holdingBall = false;
         _ball = null;
-        Debug.Log("Thrown");
     }
 
     private void OnDrawGizmos()
