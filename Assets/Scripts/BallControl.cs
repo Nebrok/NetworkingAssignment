@@ -78,8 +78,6 @@ public class BallControl : MonoBehaviour
         _ball = ball;
         _holdingBall = true;
         ballClass.SetPickUpStateRpc(true);
-        ulong foo = GetComponent<NetworkObject>().OwnerClientId;
-        Debug.Log(foo);
         ballClass.SetCarrierRpc(GetComponent<NetworkObject>().OwnerClientId);
 
         return false;

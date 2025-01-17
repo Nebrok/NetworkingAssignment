@@ -1,10 +1,14 @@
 using System;
 using System.Runtime.CompilerServices;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] GameObject _reaction;
+
+
     [SerializeField] float SkinThickness = 0.05f;
     private float _playerHeight;
 
@@ -30,14 +34,6 @@ public class PlayerController : MonoBehaviour
         _coll = GetComponent<Collider>();
         _playerHeight = transform.localScale.y * 2;
     }
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-                
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -56,11 +52,14 @@ public class PlayerController : MonoBehaviour
             gameObject.transform.forward = move;
         }
 
-        // Makes the player jump
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             _playerVelocity.y += Mathf.Sqrt(_jumpHeight * -2.0f * _gravityValue);
-            Debug.Log(_playerVelocity.y);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SpawnReaction();
         }
 
         //Gravity
@@ -72,6 +71,13 @@ public class PlayerController : MonoBehaviour
         _prevPosition = transform.position;
     }
 
+    private void SpawnReaction()
+    {
+        Vector3 newPos = transform.position;
+        newPos += transform.right;
+        ReactionManager reactionManager = FindAnyObjectByType<ReactionManager>();
+        reactionManager.SpawnReactionRpc(newPos);
+    }
 
     bool IsGrounded()
     {

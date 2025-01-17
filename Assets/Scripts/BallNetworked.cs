@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using Unity.Netcode;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 public class BallNetworked : NetworkBehaviour
 {   
@@ -135,7 +134,6 @@ public class BallNetworked : NetworkBehaviour
             {
                 if (_players[i].OwnerClientId == Network_lastThrown.Value)
                 {
-                    Debug.Log(_players[i]);
                     playerNum = _players[i].gameObject.GetComponent<PlayerNetworkBridge>().PlayerNum;
                 }
             }

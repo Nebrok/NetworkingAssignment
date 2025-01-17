@@ -34,7 +34,7 @@ Transform:
   m_GameObject: {fileID: 1212678959202783316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.13, y: 4, z: 0.28}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -128,6 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b40dc6c3d2743a14ba581a7c23355c68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _reaction: {fileID: 1915935514339341286, guid: 65e99592fef7c2a4ea335ab42f7f167a, type: 3}
   SkinThickness: 0.05
 --- !u!143 &3541264559234728227
 CharacterController:
@@ -194,6 +195,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _controller: {fileID: 7061648162516281537}
   _ballControl: {fileID: -2216400826752415369}
+  _player1mat: {fileID: 2100000, guid: 5e9d6038c6c872a47abc951765c3fe40, type: 2}
+  _player2mat: {fileID: 2100000, guid: 2e57f2752d60fce43ac66e38f30da66a, type: 2}
   Network_playerNumber:
     m_InternalValue: 0
 --- !u!114 &3425812841916134009

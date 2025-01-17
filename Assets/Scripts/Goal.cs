@@ -27,6 +27,10 @@ public class Goal : MonoBehaviour
             {
                 _points.IncrementBlueScoreRpc();
             }
+            if (ball.LastThrown == _team && _team == "Red")
+            {
+                _points.IncrementRedScoreRpc();
+            }
         }
     }
 
