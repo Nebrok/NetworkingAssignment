@@ -15,7 +15,6 @@ public class PointSystemNetworked : NetworkBehaviour
         base.OnNetworkSpawn();
         Network_teamBluePoints.OnValueChanged += UpdateBlueScore;
         Network_teamRedPoints.OnValueChanged += UpdateRedScore;
-
     }
 
     public override void OnNetworkDespawn()
@@ -23,19 +22,6 @@ public class PointSystemNetworked : NetworkBehaviour
         base.OnNetworkDespawn();
         Network_teamBluePoints.OnValueChanged -= UpdateBlueScore;
         Network_teamRedPoints.OnValueChanged -= UpdateRedScore;
-    }
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     [Rpc(SendTo.Server)]

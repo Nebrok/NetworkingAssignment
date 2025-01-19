@@ -17,7 +17,6 @@ public class BallNetworked : NetworkBehaviour
     private NetworkObject Network_carrier = null;
     private NetworkVariable<ulong> Network_lastThrown = new();
 
-
     //local
     [SerializeField] float _skinThickness = 0.01f;
     private float _radius;
